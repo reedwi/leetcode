@@ -1,4 +1,5 @@
 from typing import List, Optional
+from functools import cache
 '''
 43. Multiple Strings
 Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
@@ -247,3 +248,97 @@ class MergeTwoSolution:
 
 # A = MergeTwoSolution()
 # A.mergeTwoLists(l1=ListNode([1,2,4]), l2=ListNode([1,3,4]))
+
+'''
+96. Unique Binary Search Trees
+Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.
+Input: n = 3
+Output: 5
+Example 2:
+
+Input: n = 1
+Output: 1
+'''
+class NumTreesSolution:
+    @cache
+    def numTrees(self, n: int) -> int:
+        if n <= 1: 
+            return 1
+        return sum(self.numTrees(i-1) * self.numTrees(n-i) for i in range(1, n+1))
+
+# A = NumTreesSolution()
+# A.numTrees(n=1)
+
+'''
+28. Implement strStr()
+Implement strStr().
+
+Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+Clarification:
+
+What should we return when needle is an empty string? This is a great question to ask during an interview.
+
+For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
+'''
+class StrStrSolution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        if needle == '':
+            return 0
+        else:
+            return haystack.find(needle)
+
+# A = StrStrSolution()
+# A.strStr(haystack='', needle='')
+
+'''
+35. Search Insert Position
+Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+'''
+class SearchInsertSolution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        try:
+            return nums.index(target)
+        except ValueError:
+            close = min(nums, key=lambda x:abs(x-target))
+            print(close)
+            if close > target:
+                return nums.index(close)
+            else:
+                return nums.index(close) + 1
+        
+# A = SearchInsertSolution()
+# A.searchInsert(nums=[1,3,5,6], target=3)
+
+'''
+53. Maximum Subarray
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+A subarray is a contiguous part of an array.
+
+Example 1:
+
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+'''
+class MaxSubArraySolution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        currentMax = nums[0]
+        maxSoFar = nums[0]
+
+        for i in range(1, len(nums)):
+            currentMax = max(nums[i], currentMax + nums[i])
+            maxSoFar = max(currentMax, maxSoFar)
+            print(currentMax, maxSoFar)
+
+
+A = MaxSubArraySolution()
+A.maxSubArray(nums=[1,3,5,-6])
