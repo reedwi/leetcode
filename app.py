@@ -337,8 +337,56 @@ class MaxSubArraySolution:
         for i in range(1, len(nums)):
             currentMax = max(nums[i], currentMax + nums[i])
             maxSoFar = max(currentMax, maxSoFar)
-            print(currentMax, maxSoFar)
+        return maxSoFar
 
+# A = MaxSubArraySolution()
+# A.maxSubArray(nums=[1,3,5,-6])
 
-A = MaxSubArraySolution()
-A.maxSubArray(nums=[1,3,5,-6])
+'''
+122. Best Time to Buy and Sell Stock II
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+
+On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+
+Find and return the maximum profit you can achieve. 
+
+Example 1:
+
+Input: prices = [7,1,5,3,6,4]
+Output: 7
+Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+Total profit is 4 + 3 = 7.
+'''
+class MaxProfitSolution:
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = 0
+        if sorted(prices, reverse=True) == prices:
+            return 0
+        else:
+            for i in range(1, len(prices)):
+                profit += max(prices[i]-prices[i-1], 0)
+        return profit
+
+# A = MaxProfitSolution()
+# A.maxProfit(prices = [1,2,3,4,5])
+
+'''
+58. Length of Last Word
+Given a string s consisting of some words separated by some number of spaces, return the length of the last word in the string.
+
+A word is a maximal substring consisting of non-space characters only.
+
+Example 1:
+
+Input: s = "Hello World"
+Output: 5
+Explanation: The last word is "World" with length 5.
+'''
+class LengthOfLastWordSolution:
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.split()[-1])
+
+# A = LengthOfLastWordSolution()
+# A.lengthOfLastWord(s="   fly me   to   the moon  ")
+
