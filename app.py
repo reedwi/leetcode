@@ -1,5 +1,6 @@
 from typing import List, Optional
 from functools import cache
+from math import sqrt, floor
 '''
 43. Multiple Strings
 Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
@@ -390,3 +391,40 @@ class LengthOfLastWordSolution:
 # A = LengthOfLastWordSolution()
 # A.lengthOfLastWord(s="   fly me   to   the moon  ")
 
+'''
+69. Sqrt(x)
+Given a non-negative integer x, compute and return the square root of x.
+
+Since the return type is an integer, the decimal digits are truncated, and only the integer part of the result is returned.
+'''
+class MySqrtSolution:
+    def mySqrt(self, x: int) -> int:
+        return floor(sqrt(x))
+
+# A = MySqrtSolution()
+# A.mySqrt(x=8)
+
+'''
+83. Remove Duplicates from Sorted List
+Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+'''
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class DeleteDuplicatesSolution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        print(head.next)
+        if not head:
+            return None
+        current = head
+        while current and current.next:
+            if current.val == current.next.val:
+                current.next = current.next.next
+            else:
+                current = current.next
+            v = head.val
+        return head
+
+# A = DeleteDuplicatesSolution()
+# A.deleteDuplicates(head=ListNode([1,1,2]))
