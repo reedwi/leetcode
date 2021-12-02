@@ -1,4 +1,5 @@
-from typing import List, Optional
+from collections import deque
+from typing import Deque, List, Optional
 from functools import cache
 from math import sqrt, floor
 '''
@@ -458,3 +459,85 @@ class FindDisappearedNumbersSolution:
 # A = FindDisappearedNumbersSolution()
 # A.findDisappearedNumbers(nums=[1, 1])
 
+'''
+85. Maximal Rectangle
+Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+Output: 6
+Explanation: The maximal rectangle is shown in the above picture.
+'''
+class MaximalRectangleSolution:
+    def maxHistogram(self, heights):
+        w = len(heights)
+        stack = deque()
+        maxArea = 0
+        i = 0
+        while i < w:
+            if not stack or heights[stack[-1]] <= heights[i]:
+                stack.append(i)
+                # print(stack, 'in if')
+                i += 1
+            else:
+                top = stack.pop()
+                # print(top, 'in else')
+                area = heights[top] * ((i - stack[-1] - 1 if stack else i))
+                maxArea = max(area, maxArea)
+                # print(area)
+                # maxArea = area
+
+        while stack:
+            top = stack.pop()
+            area = heights[top] * ((i - stack[-1] - 1 if stack else i))
+            maxArea = max(area, maxArea)
+        return maxArea  
+
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        h = len(matrix)
+        if h == 0:
+            return 0
+        w = len(matrix[0])
+        nums = list(map(int, matrix[0]))
+        # print(nums)
+        area = self.maxHistogram(nums)
+        maxArea = 0
+        maxArea = max(maxArea, area)
+        # print(maxArea)
+        for i in range(1, h):
+            for j in range(w):
+                if matrix[i][j] == '1':
+                    nums[j] += 1
+                else:
+                    nums[j] = 0
+            area = self.maxHistogram(nums)
+            maxArea = max(maxArea, area)
+        # print(maxArea)
+        return maxArea
+
+# A = MaximalRectangleSolution()
+# A.maximalRectangle(matrix = [
+#     ["1","0","1","0","0"],
+#     ["1","0","1","1","1"],
+#     ["1","1","1","1","1"],
+#     ["1","0","0","1","0"]
+# ])
+
+'''
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+'''
+class RobSolution:
+    def rob(self, nums: List[int]) -> int:
+        for i in range(2, len(nums)):
+            nums[i] += max(nums[:i-1])
+        return max(nums)
+
+# A = RobSolution()
+# A.rob(nums = [2,7,9,3,1])        
