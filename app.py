@@ -541,3 +541,53 @@ class RobSolution:
 
 # A = RobSolution()
 # A.rob(nums = [2,7,9,3,1])        
+
+'''
+152. Maximum Product Subarray
+Given an integer array nums, find a contiguous non-empty subarray within the array that has the largest product, and return the product.
+
+It is guaranteed that the answer will fit in a 32-bit integer.
+
+A subarray is a contiguous subsequence of the array.
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+'''
+class MaxProductSolution:
+    def maxProduct(self, nums: List[int]) -> int:
+        maxProd, minProd, result = nums[0], nums[0], nums[0]
+        for i, num in enumerate(nums):
+            if i == 0:
+                continue
+            temp=maxProd*num
+            maxProd = max(maxProd*num, minProd*num, num)
+            minProd = min(temp, minProd*num, num)
+            result = max(result, maxProd)
+        return result
+
+# A = MaxProductSolution()
+# A.maxProduct(nums = [2,3,-2,4])
+
+'''
+1290. Convert Binary Number in a Linked List to Integer
+Given head which is a reference node to a singly-linked list. The value of each node in the linked list is either 0 or 1. The linked list holds the binary representation of a number.
+
+Return the decimal value of the number in the linked list.
+
+Example 1:
+
+
+Input: head = [1,0,1]
+Output: 5
+Explanation: (101) in base 2 = (5) in base 10
+'''
+class GetDecimalValueSolution:
+    def getDecimalValue(self, head: ListNode) -> int:
+        num = 0
+        while head:
+            num = (num<<1) | head.val
+            head = head.next
+        return num
